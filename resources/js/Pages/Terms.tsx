@@ -1,0 +1,125 @@
+import { Head, Link } from "@inertiajs/react";
+
+const SECTIONS = [
+    { title:"1. Acceptance of Terms", content:"By using SparkWash — website, app, or AI assistant — you agree to these Terms. If you disagree, please do not use our services.", bullets:[] },
+    { title:"2. Our Services", content:"SparkWash provides professional car washing via an AI-powered platform:", bullets:["Basic Wash — exterior clean, rinse, dry, windows, tires","Premium Wash — Basic + interior vacuum, dashboard, air freshener","Deluxe Detail — Premium + hand wax, leather conditioning, engine bay","AI Booking Assistant — natural language booking via Llama-3"] },
+    { title:"3. Booking & Cancellation", content:"Booking rules:", bullets:["Bookings must be made at least 2 hours in advance","Cancel or reschedule up to 2 hours before appointment — free","Cancellations under 2 hours may incur 50% fee","No-shows charged full service amount","SparkWash may cancel due to weather — full refund issued"] },
+    { title:"4. Payments", content:"All payments via Stripe. By paying you confirm:", bullets:["You are authorized to use the payment method","All payment info is accurate and complete","SparkWash does not store full card details","Prices in USD and subject to change with notice","Refunds processed in 5–10 business days"] },
+    { title:"5. User Responsibilities", content:"As a user, you agree to:", bullets:["Provide accurate vehicle and contact info","Ensure vehicle is accessible at scheduled time","Remove valuables before service","Not use platform for unlawful purposes","Not reverse-engineer the AI system"] },
+    { title:"6. Vehicle Liability", content:"SparkWash takes care with every vehicle. However:", bullets:["Not liable for pre-existing damage not reported at booking","Document existing damage before service","Damage claims must be submitted within 24 hours","Max liability = cost of service rendered","Not responsible for items left in vehicle"] },
+    { title:"7. Intellectual Property", content:"All SparkWash content — brand, logo, AI system, code, design — is our intellectual property. Do not reproduce without written permission.", bullets:[] },
+    { title:"8. AI Assistant", content:"Our AI uses Groq/Llama-3. Please note:", bullets:["AI may occasionally provide inaccurate info","Bookings subject to availability confirmation","We don't guarantee 100% AI accuracy","Conversations may be used to improve the service"] },
+    { title:"9. Privacy", content:"Your use is also governed by our Privacy Policy, incorporated here by reference. Please review it to understand our data practices.", bullets:[] },
+    { title:"10. Limitation of Liability", content:"SparkWash is not liable for indirect, incidental, or punitive damages. Total liability shall not exceed the amount paid for the service in dispute.", bullets:[] },
+    { title:"11. Governing Law", content:"These terms are governed by the laws of Pakistan. Disputes are subject to the exclusive jurisdiction of courts in Karachi, Pakistan.", bullets:[] },
+    { title:"12. Contact", content:"Questions about these terms:", bullets:["Email: legal@sparkwash.pk","Phone: 0313-0004595","Address: North Nazimabad, Gulberg Mall, Karachi"] },
+];
+
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d1117;--bg2:#111827;--surf:rgba(255,255,255,0.04);--bdr:rgba(255,255,255,0.08);--blue:#38bdf8;--cyan:#22d3ee;--deep:#0ea5e9;--text:#f0f6ff;--muted:#8896aa}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;line-height:1.6}
+.syne{font-family:'Syne',sans-serif}
+.gt{background:linear-gradient(130deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.btn-p{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--deep),var(--cyan));color:#fff;font-weight:700;font-size:.9rem;padding:12px 26px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-p:hover{transform:translateY(-2px);color:#fff}
+.sw-nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:14px 0;background:rgba(13,17,23,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+.sw-con{max-width:1160px;margin:0 auto;padding:0 24px}
+.doc-con{max-width:760px;margin:0 auto;padding:0 24px}
+.sw-label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:12px}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.nav-a{color:var(--muted);font-size:.85rem;text-decoration:none;padding:6px 12px;transition:color .2s}
+.nav-a:hover,.nav-a.active{color:var(--blue);font-weight:600}
+h2.sh{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin:32px 0 10px;color:var(--text)}
+p.sp{color:var(--muted);font-size:.88rem;line-height:1.8;margin-bottom:10px}
+ul.su{color:var(--muted);font-size:.88rem;line-height:1.8;margin:0 0 12px 20px}
+ul.su li{margin-bottom:5px}
+.divider{height:1px;background:var(--bdr);margin:20px 0 0}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(14,165,233,.2);border-radius:3px}
+@media(max-width:560px){.ft-inner{flex-direction:column !important;text-align:center;gap:16px !important}.nav-links{display:none !important}}
+`;
+
+export default function Terms() {
+    return (
+        <>
+            <Head title="Terms & Conditions — SparkWash" />
+            <style>{CSS}</style>
+
+            {/* Nav */}
+            <nav className="sw-nav">
+                <div className="sw-con" style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                    <Link href="/" style={{ display:"flex", alignItems:"center", gap:8, textDecoration:"none" }}>
+                        <span style={{ fontSize:20 }}>🚗</span>
+                        <span className="syne" style={{ fontSize:"1.2rem", fontWeight:800, color:"var(--text)" }}>Spark<span style={{ color:"var(--blue)" }}>Wash</span></span>
+                    </Link>
+                    <div className="nav-links" style={{ display:"flex", gap:4, alignItems:"center" }}>
+                        <Link href="/about"   className="nav-a">About</Link>
+                        <Link href="/contact" className="nav-a">Contact</Link>
+                        <Link href="/privacy" className="nav-a">Privacy</Link>
+                        <Link href="/terms"   className="nav-a active">Terms</Link>
+                        <Link href={route("login")}    className="nav-a" style={{ marginLeft:8 }}>Sign In</Link>
+                        <Link href={route("register")} className="btn-p" style={{ padding:"8px 18px", fontSize:".85rem", marginLeft:4 }}>Book Now ✦</Link>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Hero */}
+            <section style={{ paddingTop:130, paddingBottom:36, position:"relative", overflow:"hidden", textAlign:"center" }}>
+                <div className="orb" style={{ width:400, height:400, background:"radial-gradient(circle,rgba(56,189,248,.07),transparent)", top:"-10%", right:"10%" }} />
+                <div className="doc-con" style={{ position:"relative", zIndex:1 }}>
+                    <span className="sw-label">Legal</span>
+                    <h1 className="syne" style={{ fontSize:"clamp(2rem,4vw,3rem)", fontWeight:800, marginBottom:12 }}>Terms &amp; <span className="gt">Conditions</span></h1>
+                    <p style={{ color:"var(--muted)", fontSize:".88rem", marginBottom:6 }}>Last updated: <strong style={{ color:"var(--text)" }}>January 1, 2026</strong></p>
+                    <p style={{ color:"var(--muted)", fontSize:".88rem", lineHeight:1.75, maxWidth:500, margin:"0 auto" }}>Please read carefully before using SparkWash. By using our services, you agree to these terms.</p>
+                </div>
+            </section>
+
+            {/* Content */}
+            <section style={{ padding:"16px 0 80px" }}>
+                <div className="doc-con">
+                    {/* Quick Nav */}
+                    <div style={{ background:"rgba(56,189,248,0.04)", border:"1px solid rgba(56,189,248,0.14)", borderRadius:14, padding:"18px 22px", marginBottom:40 }}>
+                        <div style={{ fontSize:".72rem", color:"var(--blue)", fontWeight:700, letterSpacing:".08em", textTransform:"uppercase", marginBottom:10 }}>Quick Navigation</div>
+                        <div style={{ display:"flex", flexWrap:"wrap", gap:"5px 18px" }}>
+                            {SECTIONS.map((s,i)=>(
+                                <a key={i} href={`#s${i}`} style={{ color:"var(--muted)", fontSize:".8rem", textDecoration:"none" }}
+                                    onMouseOver={e=>(e.currentTarget.style.color="var(--blue)")}
+                                    onMouseOut={e=>(e.currentTarget.style.color="var(--muted)")}>{s.title}</a>
+                            ))}
+                        </div>
+                    </div>
+
+                    {SECTIONS.map((s,i)=>(
+                        <div key={i} id={`s${i}`}>
+                            <h2 className="sh">{s.title}</h2>
+                            {s.content && <p className="sp">{s.content}</p>}
+                            {s.bullets.length>0 && <ul className="su">{s.bullets.map(b=><li key={b}>{b}</li>)}</ul>}
+                            {i<SECTIONS.length-1 && <div className="divider" />}
+                        </div>
+                    ))}
+
+                    {/* Agreement box */}
+                    <div style={{ background:"rgba(56,189,248,0.05)", border:"1px solid rgba(56,189,248,0.18)", borderRadius:14, padding:"22px", marginTop:40, textAlign:"center" }}>
+                        <p style={{ color:"var(--muted)", fontSize:".86rem", marginBottom:16 }}>By using SparkWash, you acknowledge you have read and agree to these Terms.</p>
+                        <Link href={route("register")} className="btn-p" style={{ display:"inline-flex" }}>🚗 Get Started with SparkWash</Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Footer */}
+            <footer style={{ borderTop:"1px solid var(--bdr)", padding:"28px 0", background:"var(--bg)" }}>
+                <div className="sw-con ft-inner" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:14 }}>
+                    <span className="syne" style={{ fontWeight:800 }}>Spark<span style={{ color:"var(--blue)" }}>Wash</span></span>
+                    <div style={{ display:"flex", gap:18 }}>
+                        {["about","contact","privacy","terms"].map(l=>(
+                            <Link key={l} href={`/${l}`} style={{ color:"var(--muted)", fontSize:".82rem", textDecoration:"none", textTransform:"capitalize" }}>{l}</Link>
+                        ))}
+                    </div>
+                    <span style={{ color:"var(--muted)", fontSize:".75rem" }}>© 2026 SparkWash · <span style={{ color:"var(--blue)", fontWeight:600 }}>Aftab Solangi</span></span>
+                </div>
+            </footer>
+        </>
+    );
+}
