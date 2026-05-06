@@ -27,8 +27,8 @@ jobs:
       - name: Generate Key
         run: php artisan key:generate
 
-      - name: Run Tests
-        run: php artisan test --parallel
+     - name: Run Tests
+      run: php artisan test
 
   docker:
     needs: test
