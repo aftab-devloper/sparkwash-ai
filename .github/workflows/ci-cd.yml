@@ -27,8 +27,8 @@ jobs:
       - name: Generate Key
         run: php artisan key:generate
 
-     - name: Run Tests
-      run: php artisan test
+      - name: Run Tests
+        run: php artisan test
 
   docker:
     needs: test
@@ -48,3 +48,4 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/sparkwash:latest
+          
