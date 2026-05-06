@@ -2,5 +2,4 @@
 .env
 node_modules
 /public/hot
-/public/build
 *.log
