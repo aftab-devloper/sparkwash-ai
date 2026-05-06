@@ -18,14 +18,25 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, pdo_mysql, redis
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Copy .env
         run: cp .env.example .env
 
-      - name: Install Dependencies
+      - name: Install PHP Dependencies
         run: composer install --optimize-autoloader
 
       - name: Generate Key
         run: php artisan key:generate
+
+      - name: Install Node Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build Assets
+        run: npm run build
 
       - name: Run Tests
         run: vendor/bin/pest
