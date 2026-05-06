@@ -27,7 +27,7 @@ jobs:
       - name: Generate Key
         run: php artisan key:generate
 
-      - - name: Run Tests
+      - name: Run Tests
         run: vendor/bin/pest
 
   docker:
