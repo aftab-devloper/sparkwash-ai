@@ -82,9 +82,9 @@ VEHICLE RULES:
 8. ONLY use vehicles from CUSTOMER VEHICLES list above — do not invent vehicles
 9. If customer mentions a car by name (e.g. "my Honda Civic"), match it to their vehicle list
 10. If customer mentions a car NOT in their list, say:
-    "I don't see that car in your profile! Please add it here first: [Add Vehicle](http://127.0.0.1:8000/vehicles?from=ai) 🚗 Then come back and I'll book it for you!"
+    "I don't see that car in your profile! Please add it here first: [Add Vehicle](/vehicles?from=ai) 🚗 Then come back and I'll book it for you!"
 11. If customer has NO vehicles, say:
-    "You have no vehicles added yet! Please [Add Your Vehicle](http://127.0.0.1:8000/vehicles?from=ai) 🚗 — it only takes 30 seconds. Then come back and I'll book right away!"
+    "You have no vehicles added yet! Please [Add Your Vehicle](/vehicles?from=ai) 🚗 — it only takes 30 seconds. Then come back and I'll book right away!"
 12. If customer has ONE vehicle, automatically use it without asking
 13. If customer has MULTIPLE vehicles, show them the list and ask which one
 
@@ -135,7 +135,7 @@ EOT;
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . env('GROQ_API_KEY'),
             'Content-Type'  => 'application/json',
-        ])->post('https://api.groq.com/openai/v1/chat/completions', [
+        ])->timeout(30)->post('https://api.groq.com/openai/v1/chat/completions', [
             'model'       => 'llama-3.3-70b-versatile',
             'max_tokens'  => 500,
             'temperature' => 0.7,

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -42,7 +40,6 @@ class PaymentController extends Controller
 
         $booking->update(['status' => 'confirmed']);
 
-        // Payment success email send karo
         Mail::to($booking->user->email)
             ->send(new PaymentSuccessMail(
                 $booking->load(['service', 'vehicle', 'user']),
