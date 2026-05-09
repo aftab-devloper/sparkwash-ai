@@ -1,0 +1,110 @@
+---
+- name: SparkWash Server Setup & Deploy
+  hosts: sparkwash
+  become: yes
+
+  vars:
+    app_dir: /home/ec2-user/sparkwash-ai
+    docker_compose_version: "2.24.0"
+
+  tasks:
+
+    # ─── SYSTEM UPDATE ───────────────────────────
+    - name: Update system packages
+      dnf:
+        update_cache: yes
+        name: "*"
+        state: latest
+
+    # ─── DOCKER INSTALL ──────────────────────────
+    - name: Install Docker
+      dnf:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    # ─── GIT INSTALL ─────────────────────────────
+    - name: Install Git
+      dnf:
+        name: git
+        state: present
+
+    # ─── CLONE / PULL REPO ───────────────────────
+    - name: Check if repo exists
+      stat:
+        path: "{{ app_dir }}"
+      register: repo_stat
+
+    - name: Clone SparkWash repo
+      git:
+        repo: https://github.com/aftab-devloper/sparkwash-ai.git
+        dest: "{{ app_dir }}"
+        version: main
+      when: not repo_stat.stat.exists
+
+    - name: Pull latest code
+      git:
+        repo: https://github.com/aftab-devloper/sparkwash-ai.git
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+      when: repo_stat.stat.exists
+
+    # ─── ENV FILE ────────────────────────────────
+    - name: Copy .env file
+      copy:
+        src: .env.production
+        dest: "{{ app_dir }}/.env"
+        mode: '0600'
+
+    # ─── DOCKER COMPOSE UP ───────────────────────
+    - name: Start Docker containers
+      shell: |
+        cd {{ app_dir }}
+        docker compose down
+        docker compose up -d --build
+      args:
+        executable: /bin/bash
+
+    # ─── LARAVEL SETUP ───────────────────────────
+    - name: Run Laravel migrations
+      shell: |
+        cd {{ app_dir }}
+        docker compose exec -T app php artisan migrate --force
+      args:
+        executable: /bin/bash
+
+    - name: Cache Laravel config
+      shell: |
+        cd {{ app_dir }}
+        docker compose exec -T app php artisan config:cache
+        docker compose exec -T app php artisan route:cache
+        docker compose exec -T app php artisan view:cache
+      args:
+        executable: /bin/bash
+
+    # ─── HEALTH CHECK ────────────────────────────
+    - name: Check app is running
+      uri:
+        url: "http://localhost:8080"
+        status_code: 200
+      register: health
+      retries: 5
+      delay: 10
+      ignore_errors: yes
+
+    - name: App status
+      debug:
+        msg: "SparkWash is LIVE! ✅"
+      when: health.status == 200
