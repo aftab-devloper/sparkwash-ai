@@ -16,17 +16,18 @@ services:
       - mysql
       - redis
     environment:
+      - APP_KEY=base64:8sZdwTsyJjW3eHJy87x3P4q+Dcj8S3Nip/3o7WVpFQk=
       - GROQ_API_KEY=${GROQ_API_KEY}
       - DB_HOST=mysql
       - DB_USERNAME=sparkwash
       - DB_PASSWORD=secret
       - REDIS_HOST=redis
       - QUEUE_CONNECTION=database
-      - SESSION_DRIVER=cookie
+      - SESSION_DRIVER=file
       - CACHE_DRIVER=file
       - CACHE_STORE=file
       - APP_DEBUG=false
-      - APP_URL=https://sparkwash.online
+      - APP_URL=http://sparkwash.online
 
   # Nginx
   nginx:
