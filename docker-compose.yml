@@ -21,9 +21,12 @@ services:
       - DB_USERNAME=sparkwash
       - DB_PASSWORD=secret
       - REDIS_HOST=redis
-      - QUEUE_CONNECTION=redis
-      - SESSION_DRIVER=redis
-      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=database
+      - SESSION_DRIVER=cookie
+      - CACHE_DRIVER=file
+      - CACHE_STORE=file
+      - APP_DEBUG=false
+      - APP_URL=http://sparkwash.online
 
   # Nginx
   nginx:
@@ -89,7 +92,7 @@ services:
       - DB_USERNAME=sparkwash
       - DB_PASSWORD=secret
       - REDIS_HOST=redis
-      - QUEUE_CONNECTION=redis
+      - QUEUE_CONNECTION=database
 
 networks:
   sparkwash-network:
